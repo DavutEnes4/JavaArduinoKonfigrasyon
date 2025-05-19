@@ -10,4 +10,10 @@ public class HomeController {
     public String index() {
         return "index";
     }
+
+    @GetMapping("/card-chat")
+    public String cardChat() {
+        return "card_chat";
+    }
+
 }
