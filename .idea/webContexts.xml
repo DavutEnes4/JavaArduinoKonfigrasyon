@@ -3,6 +3,7 @@
   <component name="WebContextManager">
     <option name="state">
       <map>
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/config/pin_config_list.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/config" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/kart_config.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/kartlar_listesi.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/pin_config_list.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views" />

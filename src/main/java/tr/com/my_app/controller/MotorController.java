@@ -23,12 +23,10 @@ public class MotorController {
         this.motorService = motorService;
     }
 
-    /**
-     * MVC view: motor_control.jsp render edilir.
-     */
+
     @GetMapping("/panel")
     public String motorPanel() {
-        return "motor_control";
+        return "motor/motor_control";
     }
 
     /**

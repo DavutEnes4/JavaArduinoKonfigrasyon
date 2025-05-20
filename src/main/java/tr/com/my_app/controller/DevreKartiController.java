@@ -37,15 +37,7 @@ public class DevreKartiController {
         model.addAttribute("pageSize", size);
         model.addAttribute("search", search);
 
-        return "kartlar_listesi";
-    }
-
-    @GetMapping("/kart-pin-form")
-    public String showKartPinForm(Model model) {
-        Integer totalCount = devreKartiService.getTotalCount(null).intValue();
-        List<DevreKarti> kartlar = devreKartiService.getKartlar(0,totalCount,null);
-        model.addAttribute("kartlar", kartlar);
-        return "kart_form"; // JSP dosya adı
+        return "devrekarti/kartlar_listesi";
     }
 
     @GetMapping("/kart/{kartId}/config")
@@ -54,7 +46,7 @@ public class DevreKartiController {
             Model model) {
         DevreKarti kart = devreKartiService.getKartDetay(kartId);
         model.addAttribute("kart", kart);
-        return "kart_config";
+        return "devrekarti/kart_config";
     }
 
     @PostMapping("/kart/{kartId}/config/save")

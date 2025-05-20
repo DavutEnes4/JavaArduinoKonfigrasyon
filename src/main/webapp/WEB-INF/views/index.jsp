@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
   <title><spring:message code="index.title"/></title>
@@ -22,25 +23,24 @@
     }
   </style>
 </head>
-  <body class="bg-body-secondary">
-    <div class="container text-center mt-5">
-      <h2 class="mb-4">🛠️ <spring:message code="index.header"/> </h2>
-      <p class="text-muted mb-5"> <spring:message code="index.botHeader" /></p>
+<body class="bg-body-secondary">
+<div class="container text-center mt-5">
+  <h2 class="mb-4">🛠️ <spring:message code="index.header"/> </h2>
+  <p class="text-muted mb-5"><spring:message code="index.botHeader" /></p>
 
-      <div class="d-flex justify-content-center flex-wrap">
-        <a href="/konfigrasyon" class="btn btn-primary dashboard-btn">
-          <i class="bi bi-sliders"></i>  <spring:message code="index.configPanel" />
+  <div class="d-flex justify-content-center flex-wrap">
+    <a href="${pageContext.request.contextPath}/kartlar" class="btn btn-primary dashboard-btn">
+      <i class="bi bi-sliders"></i> <spring:message code="index.configPanel" />
+    </a>
 
-        </a>
+    <a href="${pageContext.request.contextPath}/configlar" class="btn btn-info text-white dashboard-btn">
+      <i class="bi bi-table"></i> <spring:message code="index.dataPanel" />
+    </a>
 
-        <a href="/kayitli_veriler" class="btn btn-info text-white dashboard-btn">
-          <i class="bi bi-table"></i>   <spring:message code="index.dataPanel" />
-        </a>
-
-        <a href="/kontrol" class="btn btn-success dashboard-btn">
-          <i class="bi bi-controller"></i> <spring:message code="index.controlPanel" />
-        </a>
-      </div>
-    </div>
-  </body>
+    <a href="${pageContext.request.contextPath}/motor/panel" class="btn btn-success dashboard-btn">
+      <i class="bi bi-controller"></i> <spring:message code="index.controlPanel" />
+    </a>
+  </div>
+</div>
+</body>
 </html>

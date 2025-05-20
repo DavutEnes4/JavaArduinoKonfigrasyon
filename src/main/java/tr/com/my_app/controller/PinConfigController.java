@@ -5,11 +5,11 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import tr.com.my_app.model.DevreKarti;
-import tr.com.my_app.model.Pin;
 import tr.com.my_app.model.PinConfig;
+import tr.com.my_app.service.MotorService;
 import tr.com.my_app.service.PinConfigService;
 
+import java.io.Console;
 import java.util.*;
 
 @Controller
@@ -18,6 +18,9 @@ public class PinConfigController {
 
     @Autowired
     PinConfigService pinConfigService;
+
+    @Autowired
+    MotorService motorService;
 
     @GetMapping()
     public String configList(
@@ -36,7 +39,7 @@ public class PinConfigController {
         model.addAttribute("pageSize", size);
         model.addAttribute("search", search);
 
-        return "pin_config_list";
+        return "config/pin_config_list";
     }
 
     @PostMapping(path = "/delete", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -53,10 +56,23 @@ public class PinConfigController {
 
     @PostMapping(path = "/upload", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Map<String,String> uploadConfig(@RequestBody Map<String,Long> payload) {
-        Long id = payload.get("id");
-        // burada Arduino’ya gönderme veya başka iş yap
-        return Collections.singletonMap("status","ok");
+    public Map<String,String> uploadConfig(@RequestBody Map<String,Object> payload) {
+        String komut = (String) payload.get("komut");
+        String port = (String) payload.get("port");
+        Integer baudrate = (Integer) payload.get("baudrate");
+
+        System.out.print(komut);
+        System.out.print(port);
+        System.out.println(baudrate);
+
+        if (komut == null || port == null || baudrate == null) {
+            return Map.of("status", "error", "message", "Eksik parametre");
+        }
+
+        boolean ok = motorService.sendCommand(port, baudrate, komut.charAt(0));
+        return ok ? Map.of("status", "ok")
+                : Map.of("status", "error", "message", "Komut gönderilemedi");
+
     }
 
     /*** 4a) Düzenleme formu GET ***/
@@ -72,7 +88,7 @@ public class PinConfigController {
         }
         model.addAttribute("config", config);
         model.addAttribute("lang", locale.getLanguage());
-        return "pin_config_edit";
+        return "config/pin_config_edit";
     }
 
     /*** 4b) Düzenleme submit POST ***/
