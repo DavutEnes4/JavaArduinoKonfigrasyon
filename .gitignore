@@ -14,8 +14,7 @@ target/
 *.iws
 *.iml
 *.ipr
-
-
+git filter-branch --force --index-filter "git rm --cached --ignore-unmatch src/main/resources/application.properties" --prune-empty --tag-name-filter cat -- --all
 ### Eclipse ###
 .apt_generated
 .classpath
