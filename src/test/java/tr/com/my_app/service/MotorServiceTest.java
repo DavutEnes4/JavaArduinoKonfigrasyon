@@ -24,12 +24,12 @@ public class MotorServiceTest {
     }
 
     /**
-     * Bu test, yalnızca gerçek bir cihaz COM3'e bağlıysa çalıştırılmalıdır.
-     * Port adını sistemine göre güncelle: COM3, /dev/ttyUSB0 vs.
+     * Bu test, yalnızca gerçek bir cihaz COM5'e bağlıysa çalıştırılmalıdır.
+     * Port adını sistemine göre güncelle: COM5, /dev/ttyUSB0 vs.
      */
     @Test
     public void testSendCommandToRealDevice() {
-        String portName = "COM22";  // Gerçek bağlı cihazın portu
+        String portName = "COM5";  // Gerçek bağlı cihazın portu
         int baudRate = 9600;
         String komut = "S";
 
