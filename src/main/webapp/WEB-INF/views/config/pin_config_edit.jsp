@@ -69,7 +69,7 @@
             </c:forEach>
           </td>
           <td>
-            <select class="form-select pin-select" name="arduinoPinler">
+            <select class="form-select pin-select" name="arduinoPinler" req>
               <option value="">-- <spring:message code="config.edit.select.placeholder"/> --</option>
               <c:forEach var="entry" items="${fn:split(arduinoPinListesi, ',')}">
                 <c:set var="parts" value="${fn:split(entry, ':')}" />

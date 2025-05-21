@@ -122,24 +122,36 @@
 <script>
     function updatePreview() {
         let selected = [];
-        document.querySelectorAll('select[name="arduinoPinler"]').forEach(s=>{
-            if(s.value) selected.push(s.value);
+        document.querySelectorAll('select[name="arduinoPinler"]').forEach(s => {
+            if (s.value) selected.push(s.value);
         });
         document.getElementById('pinPreview').innerText = selected.join(',');
     }
-    document.querySelectorAll('select[name="arduinoPinler"]').forEach(el=>{
+
+    document.querySelectorAll('select[name="arduinoPinler"]').forEach(el => {
         el.addEventListener('change', updatePreview);
     });
+
     updatePreview();
 
-    document.getElementById('pinConfigForm').addEventListener('submit', e=>{
+    document.getElementById('pinConfigForm').addEventListener('submit', e => {
         e.preventDefault();
+
         const isim = document.getElementById('isimInput').value;
-        const pins = document.getElementById('pinPreview').innerText;
+        const pins = document.getElementById('pinPreview').innerText.trim();
+
+        if (!pins || pins.length === 0) {
+            alert("Lütfen en az bir Arduino pini seçiniz.");
+            return;
+        }
+
         fetch(e.target.action, {
-            method:'POST',
-            headers:{'Content-Type':'application/x-www-form-urlencoded'},
-            body: 'isim='+encodeURIComponent(isim)+'&pinValues='+encodeURIComponent(pins)
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'isim=' + encodeURIComponent(isim) + '&pinValues=' + encodeURIComponent(pins)
+        }).then(() => {
+            alert("Konfigürasyon başarıyla kaydedildi.");
+            // window.location.href = '/kartlar'; // örnek yönlendirme
         });
     });
 </script>

@@ -3,6 +3,7 @@ package tr.com.my_app.service;
 import com.fazecast.jSerialComm.SerialPort;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -37,23 +38,37 @@ public class MotorService {
      * Verilen port, baudrate ve komut char’ını seri porta yollar.
      * @param portName  Örn. "COM3" veya "/dev/ttyUSB0"
      * @param baudRate  Örn. 9600
-     * @param command   Tek karakterlik komut, örn. 'I','G','L','R','S'
+     * @param commandLine   Tek karakterlik komut, örn. 'I','G','L','R','S'
      * @return başarılıysa true, açma/yazma hatasında false
      */
-    public boolean sendCommand(String portName, int baudRate, char command) {
+    public boolean sendCommand(String portName, int baudRate, String commandLine) {
+
         SerialPort port = SerialPort.getCommPort(portName);
         port.setBaudRate(baudRate);
-        port.setNumDataBits(8);
         port.setNumStopBits(SerialPort.ONE_STOP_BIT);
         port.setParity(SerialPort.NO_PARITY);
+        port.setNumDataBits(8);
 
-        if (!port.openPort()) {
+        port.setFlowControl(SerialPort.FLOW_CONTROL_DISABLED);
+        port.clearDTR();  // reset'i önlemeye çalış
+        port.clearRTS();  // bazen bu da gerekir
+
+        if (!port.openPort(1000)) {
+            System.err.println("[MotorService] Port açılamadı!");
             return false;
         }
+
         try {
-            byte[] b = new byte[]{ (byte) command };
-            port.writeBytes(b, 1);
-            return true;
+            Thread.sleep(1200);
+
+            String msg = commandLine + "\n";
+            byte[] out = msg.getBytes(StandardCharsets.US_ASCII);
+
+            int written = port.writeBytes(out, out.length);
+            System.out.println("[MotorService] → " + msg.trim()
+                    + "  (" + written + " bayt)");
+            return written == out.length;
+
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -61,4 +76,6 @@ public class MotorService {
             port.closePort();
         }
     }
+
+
 }

@@ -177,7 +177,7 @@
             .catch(e => {
                 alert('Yükleme hatası alındı ');
                 console.log(e);
-            };
+            });
     }
 </script>
 </body>

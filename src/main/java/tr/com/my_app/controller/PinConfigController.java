@@ -10,6 +10,7 @@ import tr.com.my_app.service.MotorService;
 import tr.com.my_app.service.PinConfigService;
 
 import java.io.Console;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Controller
@@ -56,23 +57,21 @@ public class PinConfigController {
 
     @PostMapping(path = "/upload", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Map<String,String> uploadConfig(@RequestBody Map<String,Object> payload) {
-        String komut = (String) payload.get("komut");
-        String port = (String) payload.get("port");
-        Integer baudrate = (Integer) payload.get("baudrate");
+    public Map<String, String> uploadConfig(@RequestBody Map<String, Object> payload) {
 
-        System.out.print(komut);
-        System.out.print(port);
-        System.out.println(baudrate);
+        String pinValues = (String) payload.get("komut");   // sadece "8,7,13,12,5,6"
+        String port      = (String) payload.get("port");
+        Number baudObj   = (Number) payload.get("baudrate"); // JSON sayısı Integer/Double olabilir
 
-        if (komut == null || port == null || baudrate == null) {
+        if (pinValues == null || port == null || baudObj == null) {
             return Map.of("status", "error", "message", "Eksik parametre");
         }
 
-        boolean ok = motorService.sendCommand(port, baudrate, komut.charAt(0));
+        String komutLine = "C," + pinValues;
+        int baudrate     = baudObj.intValue();
+        boolean ok = motorService.sendCommand(port, baudrate, komutLine);
         return ok ? Map.of("status", "ok")
                 : Map.of("status", "error", "message", "Komut gönderilemedi");
-
     }
 
     /*** 4a) Düzenleme formu GET ***/

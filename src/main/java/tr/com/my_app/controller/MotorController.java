@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import tr.com.my_app.service.MotorService;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
@@ -54,7 +55,7 @@ public class MotorController {
             return Map.of("status", "error", "message", "Eksik parametre");
         }
 
-        boolean ok = motorService.sendCommand(port, baudrate, komut.charAt(0));
+        boolean ok = motorService.sendCommand(port, baudrate, komut);
         return ok ? Map.of("status", "ok")
                 : Map.of("status", "error", "message", "Komut gönderilemedi");
     }
